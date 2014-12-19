@@ -1,33 +1,48 @@
 Duplicating a repository
+Duplication d'un référentiel
 To create a duplicate of a repository without forking, you need to run a special clone command against the original repository and mirror-push to the new one.
+Pour créer un double d'un référentiel sans dédoublement, vous devez exécuter une commande de clone spéciale contre le référentiel d'origine et miroir-poussoir à la nouvelle.
 
-In the following cases, the repository you're trying to push to--like exampleuser/new-repository or exampleuser/mirrored--should already exist on GitHub. See "Creating a new repository" for more information.
+In the following cases, the repository you're trying to push to--like exampleuser/new-repository or exampleuser/mirrored--should already exist on GitHub. See "Creating a new repository" (https://help.github.com/articles/creating-a-new-repository) for more information.
+Dans les cas suivants, le référentiel que vous essayez de pousser de -- comme exampleuser/new-repository ou exampleuser/mirrored -- devra déjà exister sur GitHub. Voir "Création d'un nouveau référentiel" (https://help.github.com/articles/creating-a-new-repository) pour plus d'informations.
 
 Mirroring a repository
+Miroir d'un référentiel
 
 To make an exact duplicate, you need to perform both a bare-clone and a mirror-push.
+Pour faire une copie exacte, vous devez effectuer à la fois un clone-nue et un miroir-poussoir.
 
 Open up the command line, and type these commands:
+Ouvrez la ligne de commande et tapez les commandes suivantes:
 
 git clone --bare https://github.com/exampleuser/old-repository.git
 # Make a bare clone of the repository
+# Faire un clone nue du référentiel
 
 cd old-repository.git
 git push --mirror https://github.com/exampleuser/new-repository.git
 # Mirror-push to the new repository
+# Miroir-poussoir pour le nouveau référentiel
 
 cd ..
 rm -rf old-repository.git
 # Remove our temporary local repository
+# Retirer notre référentiel local temporaire
+
 If you want to mirror a repository in another location, including getting updates from the original, you can clone a mirror and periodically push the changes.
+Si vous voulez mettre en miroir un référentiel à un autre endroit, y compris l'obtention des mises à jour de l'original, vous pouvez cloner un miroir et pousser périodiquement les changements.
 
 git clone --mirror https://github.com/exampleuser/repository-to-mirror.git
 # Make a bare mirrored clone of the repository
+# Faire un clone miroir nue du référentiel
 
 cd repository-to-mirror.git
 git remote set-url --push origin https://github.com/exampleuser/mirrored
 # Set the push location to your mirror
+# Définissez l'emplacement de pousser à votre miroir
+
 As with a bare clone, a mirrored clone includes all remote branches and tags, but all local references will be overwritten each time you fetch, so it will always be the same as the original repository. Setting the URL for pushes simplifies pushing to your mirror. To update your mirror, fetch updates and push, which could be automated by running a cron job.
+Comme avec un clone nue, un clone miroir comprend toutes les branches et les étiquettes à distance, mais toutes les références locales seront écrasées à chaque fois que vous irez chercher(fetch), de sorte qu'il sera toujours le même que le référentiel d'origine. Définition de l'URL pour les poussées simplifie pousser à votre miroir. Pour mettre à jour votre miroir, chercher les mises à jour et poussoir, qui pourraient être automatisées en exécutant une tâche cron.
 
 git fetch -p origin
 git push --mirror
